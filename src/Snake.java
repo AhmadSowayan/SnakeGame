@@ -1,6 +1,16 @@
 import java.awt.*;
 
 public class Snake {
+    public static final Color BODY = Color.GREEN;
+    private int size;
+    private SnakeNode head;
+    private SnakeNode tail;
+
+    public Snake(Point location){
+        head = tail = new SnakeNode(location);
+        size = 1;
+    }
+
     private static class SnakeNode{
         Point location;
         SnakeNode next;
@@ -22,35 +32,6 @@ public class Snake {
             this(null, location, null);
         }
     }
-    public static final Color BODY = Color.GREEN;
-    private int size;
-    private SnakeNode head;
-    private SnakeNode tail;
-
-    public Snake(Point location){
-        head = tail = new SnakeNode(location);
-        size = 1;
-    }
-
-    private void addFirst(Point location){
-        SnakeNode newNode = new SnakeNode(location, head);
-        head.prev = newNode;
-        head = newNode;
-        size++;
-    }
-
-    private void addLast(Point location){
-        SnakeNode newNode = new SnakeNode(tail, location);
-        tail.next = newNode;
-        tail = newNode;
-        size++;
-    }
-
-    private void removeLast(){
-        tail = tail.prev;
-        tail.next = null;
-        size--;
-    }
 
     public void move(Point location){
         addFirst(location);
@@ -61,22 +42,48 @@ public class Snake {
         addFirst(location);
     }
 
+    private void addFirst(Point location){
+        SnakeNode newNode = new SnakeNode(location, head);
+        head.prev = newNode;
+        head = newNode;
+        size++;
+    }
+
+    private void removeLast(){
+        tail = tail.prev;
+        tail.next = null;
+        size--;
+    }
+
+    public Point[] getFullLocationInArray(){
+        Point[] snakeArr = new Point[getSize()];
+
+        int i;
+        SnakeNode node;
+        for(i = 0, node = head; node != null; i++, node = node.next){
+            snakeArr[i] = node.location;
+        }
+
+        return snakeArr;
+    }
+
     public int getSize(){
         return size;
-    }
-
-    public Point getHead(){
-        return head.location;
-    }
-
-    public Point getTail(){
-        return tail.location;
     }
 
     public void reset(Point location){
         head = tail = new SnakeNode(location);
         size = 1;
     }
+
+    public Point getHeadLocation(){
+        return head.location;
+    }
+
+    public Point getTailLocation(){
+        return tail.location;
+    }
+
 
 
 
