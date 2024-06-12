@@ -11,7 +11,7 @@ public class GameFrame extends JFrame {
     Point food;
     Snake snake;
 
-    boolean gameStarted = false;
+    boolean controlBuffer = false;
     int horizontalMovement = 0;
     int verticalMovement = 0;
 
@@ -40,26 +40,29 @@ public class GameFrame extends JFrame {
     class DirectionHandler implements KeyListener{
         @Override
         public void keyPressed(KeyEvent e) {
-            switch (e.getKeyCode()){
-                case KeyEvent.VK_UP:
-                    horizontalMovement = (horizontalMovement != 0) ? 0 : horizontalMovement;
-                    verticalMovement = (verticalMovement == 0) ? -1 : verticalMovement;
-                    break;
-                case KeyEvent.VK_DOWN:
-                    horizontalMovement = (horizontalMovement != 0) ? 0 : horizontalMovement;
-                    verticalMovement = (verticalMovement == 0) ? 1 : verticalMovement;
-                    break;
-                case KeyEvent.VK_RIGHT:
-                    horizontalMovement = (horizontalMovement == 0) ? 1 : horizontalMovement;
-                    verticalMovement = (verticalMovement != 0) ? 0 : verticalMovement;
-                    break;
-                case KeyEvent.VK_LEFT:
-                    horizontalMovement = (horizontalMovement == 0) ? -1 : horizontalMovement;
-                    verticalMovement = (verticalMovement != 0) ? 0 : verticalMovement;
-                    break;
+            if(controlBuffer){
+                switch (e.getKeyCode()){
+                    case KeyEvent.VK_UP:
+                        horizontalMovement = (horizontalMovement != 0) ? 0 : horizontalMovement;
+                        verticalMovement = (verticalMovement == 0) ? -1 : verticalMovement;
+                        break;
+                    case KeyEvent.VK_DOWN:
+                        horizontalMovement = (horizontalMovement != 0) ? 0 : horizontalMovement;
+                        verticalMovement = (verticalMovement == 0) ? 1 : verticalMovement;
+                        break;
+                    case KeyEvent.VK_RIGHT:
+                        horizontalMovement = (horizontalMovement == 0) ? 1 : horizontalMovement;
+                        verticalMovement = (verticalMovement != 0) ? 0 : verticalMovement;
+                        break;
+                    case KeyEvent.VK_LEFT:
+                        horizontalMovement = (horizontalMovement == 0) ? -1 : horizontalMovement;
+                        verticalMovement = (verticalMovement != 0) ? 0 : verticalMovement;
+                        break;
+                }
+                controlBuffer = false;
+
+
             }
-
-
         }                                                                                                                                                                                                   //useless but needed lines
                                                                                                                                                                                                             public void keyTyped(KeyEvent e) {}
                                                                                                                                                                                                             public void keyReleased(KeyEvent e) {}
@@ -140,6 +143,7 @@ public class GameFrame extends JFrame {
 
 
             Thread.sleep(60);
+            controlBuffer = true;
 
 
 
